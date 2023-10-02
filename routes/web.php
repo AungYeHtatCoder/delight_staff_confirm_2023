@@ -21,7 +21,10 @@ use App\Http\Controllers\Admin\SalaryByMonthAndYearController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+// register routes false
+Route::get('/register', function () {
+    return redirect('/login');
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
