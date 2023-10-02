@@ -5,7 +5,7 @@
 				<div class="menu">
 					<div class="menu-header">Navigation</div>
 					<div class="menu-item active">
-						<a href="index.html" class="menu-link">
+						<a href="{{ route('home') }}" class="menu-link">
 							<span class="menu-icon"><i class="bi bi-cpu"></i></span>
 							<span class="menu-text">Dashboard</span>
 						</a>
