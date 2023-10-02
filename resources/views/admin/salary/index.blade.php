@@ -56,7 +56,7 @@
               <td>{{ $salary->amount }}</td>
 														<td>{{ $salary->created_at->format('F j, Y') }}</td>
 														<td>
-               <a href="{{ route('admin.salaries.edit', $salary->id) }}" class="btn btn-primary btn-sm">Edit</a>
+               {{-- <a href="{{ route('admin.salaries.edit', $salary->id) }}" class="btn btn-primary btn-sm">Edit</a> --}}
                <a href="{{ route('admin.salaries.show', $salary->id) }}" class="btn btn-info btn-sm">Show</a>
 <form action="{{ route('admin.salaries.destroy', $salary->id) }}" method="POST">
            @csrf
