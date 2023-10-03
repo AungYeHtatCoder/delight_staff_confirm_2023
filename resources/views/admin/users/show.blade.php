@@ -47,6 +47,56 @@
          </span>
         </td>
        </tr>
+							<tr>
+        <th>User Email</th>
+        <td>
+         <span class="badge badge-success" style="font-size: 20px">
+          <strong>
+           {!! $user_detail->email !!}
+          </strong>
+         </span>
+        </td>
+       </tr>
+							<tr>
+        <th>User Phone</th>
+        <td>
+         <span class="badge badge-success" style="font-size: 20px">
+          <strong>
+           {!! $user_detail->phone !!}
+          </strong>
+         </span>
+        </td>
+       </tr>
+							<tr>
+        <th>User Address</th>
+        <td>
+         <span class="badge badge-success" style="font-size: 20px">
+          <strong>
+           {!! $user_detail->address !!}
+          </strong>
+         </span>
+        </td>
+       </tr>
+							<tr>
+        <th>User Kpay No</th>
+        <td>
+         <span class="badge badge-success" style="font-size: 20px">
+          <strong>
+           {!! $user_detail->kpay_no !!}
+          </strong>
+         </span>
+        </td>
+       </tr>
+							<tr>
+        <th>User Join date</th>
+        <td>
+         <span class="badge badge-success" style="font-size: 20px">
+          <strong>
+           {!! $user_detail->join_date !!}
+          </strong>
+         </span>
+        </td>
+       </tr>
        <tr>
         <th>Role</th>
         <td>

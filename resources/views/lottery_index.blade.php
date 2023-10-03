@@ -17,43 +17,82 @@
 	<!-- BEGIN #app -->
 	<div id="app" class="app app-full-height app-without-header">
 		<!-- BEGIN login -->
-		<div class="login">
-			<!-- BEGIN login-content -->
-			<div class="login-content">
-				<form method="POST" action="{{ route('login') }}">
-                        @csrf
-					<h1 class="text-center">Sign In</h1>
-					<div class="text-inverse text-opacity-50 text-center mb-4">
-						For your protection, please verify your identity.
+		<div class="container">
+   <div class="row">
+    <div class="col-md-8">
+     <div class="card">
+      <div class="card-header">
+       <h4>Lottery List</h4>
+      </div>
+      <div class="card-body">
+       <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Lottery Times</th>
+                <th>Customer Name</th>
+                <th>Customer Ph</th>
+                <th>Ticket Numbers</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($lotteries as $lottery)
+                @foreach ($lottery->customers as $customer)
+                    <tr>
+                        <td>{{ $lottery->times }}</td>
+                        <td>{{ $customer->customer_name }}</td>
+                        <td>{{ $customer->phone }}</td>
+                        <td>
+                            <ul>
+                                @foreach (json_decode($customer->pivot->ticket_no) as $ticketNo)
+                                    <li>{!! DNS2D::getBarcodeHTML("$ticketNo", 'QRCODE', 5, 5)!!}
+                                    P - {{ $ticketNo }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
+                @endforeach
+            @endforeach
+        </tbody>
+    </table>
+      </div>
+     </div>
+    </div>
+    <div class="col-md-4">
+
+     <div class="card">
+      <div class="card-header">
+       <h4>Lottery Test</h4>
+      </div>
+      <div class="card-body">
+       <form method="POST" action="{{ route('lotteries.store') }}">
+    @csrf
+    <div class="mb-3">
+						<label class="form-label">Customer Name <span class="text-danger">*</span></label>
+						<input type="text" class="form-control form-control-lg bg-inverse bg-opacity-5" value="" placeholder="Customer Name" name="customer_name">
 					</div>
-					<div class="mb-3">
-						<label class="form-label">Email Address <span class="text-danger">*</span></label>
-						<input type="text" class="form-control form-control-lg bg-inverse bg-opacity-5" value="" placeholder="" name="email">
+
+     <div class="mb-3">
+						<label class="form-label">Customer Phone <span class="text-danger">*</span></label>
+						<input type="text" class="form-control form-control-lg bg-inverse bg-opacity-5" value="" placeholder="ဖုန်းနံပါတ်ထဲ့ရန်" name="phone">
 					</div>
-					<div class="mb-3">
-						<div class="d-flex">
-							<label class="form-label">Password <span class="text-danger">*</span></label>
-							{{-- <a href="#" class="ms-auto text-inverse text-decoration-none text-opacity-50">Forgot password?</a> --}}
-						</div>
-						<input type="password" class="form-control form-control-lg bg-inverse bg-opacity-5" value="" placeholder="" name="password">
+     <div class="mb-3">
+						<label class="form-label">Lottery Time <span class="text-danger">*</span></label>
+						<input type="text" class="form-control form-control-lg bg-inverse bg-opacity-5" value="" placeholder="အကြိမ်ရေထဲ့ရန်" name="times">
 					</div>
-					<div class="mb-3">
-						{{-- <div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="customCheck1">
-							<label class="form-check-label" for="customCheck1">Remember me</label>
-						</div> --}}
-					</div>
-					<button type="submit" class="btn btn-outline-theme btn-lg d-block w-100 fw-500 mb-3">Sign In</button>
-					<div class="text-center text-inverse text-opacity-50">
-						Don't have an account yet? <a href="{{ route('lotteries.index')}}">TestLottery</a>.
-					</div>
-				</form>
-			</div>
-			<!-- END login-content -->
-			
-		</div>
+    <div id="ticket-container">
+        <!-- This div will hold dynamically added input fields -->
+    </div>
+    <button type="button" id="add-ticket">Add Ticket</button>
+    <button type="submit">Place Bets</button>
+</form>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
 		<!-- END login -->
-		
+	
 		<!-- BEGIN theme-panel -->
 		<div class="app-theme-panel">
 			<div class="app-theme-panel-container">
@@ -185,6 +224,39 @@
 	<script src="{{ asset('admin_app/assets/js/app.min.js') }}"></script>
 	<!-- ================== END core-js ================== -->
 	
-	
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ticketContainer = document.getElementById('ticket-container');
+        const addTicketButton = document.getElementById('add-ticket');
+
+        let ticketCount = 0;
+
+        addTicketButton.addEventListener('click', function () {
+            ticketCount++;
+
+            const ticketTemplate = `
+                <div class="ticket">
+                    <label for="ticket_on">Ticket No:</label>
+                    <input type="number" name="ticket_no[]" id="ticket_no" class="form-control" required>
+                    <button type="button" class="btn btn-primary btn-sm remove-ticket">Remove Ticket</button>
+                </div>
+            `;
+
+            const ticketElement = document.createElement('div');
+            ticketElement.innerHTML = ticketTemplate;
+
+            ticketContainer.appendChild(ticketElement);
+
+            // Handle removing tickets
+            const removeButtons = ticketContainer.querySelectorAll('.remove-ticket');
+            removeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    ticketContainer.removeChild(ticketElement);
+                });
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

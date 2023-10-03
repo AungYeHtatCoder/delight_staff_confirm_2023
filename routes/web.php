@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LotteryController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -28,6 +29,7 @@ Route::get('/register', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('lotteries', LotteryController::class);
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth']], function () {
     //Route::get('/', [HomeController::class, 'index'])->name('home');
     // Permissions
